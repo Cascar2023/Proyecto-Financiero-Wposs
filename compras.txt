@@ -1,0 +1,2 @@
+Monto: 7000.00, PAN: 123456789, CVV: 1234, Vencimiento: 10/25, Referencia: 1000
+Monto: 3000.00, PAN: 123456987, CVV: 2345, Vencimiento: 02/26, Referencia: 1001
