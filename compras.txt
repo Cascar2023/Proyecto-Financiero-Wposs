@@ -1,2 +1,3 @@
-Monto: 7000.00, PAN: 123456789, CVV: 1234, Vencimiento: 10/25, Referencia: 1000
-Monto: 3000.00, PAN: 123456987, CVV: 2345, Vencimiento: 02/26, Referencia: 1001
+Monto: 2000.00, PAN: 5555555555554444, Franquicia: Mastercard, CVV: 234, Vencimiento: 02/26, Referencia: 1000, Estado: Anulada
+Monto: 6000.00, PAN: 6011111111111117, Franquicia: Discover, CVV: 142, Vencimiento: 09/26, Referencia: 1001, Estado: Vigente
+Monto: 6000.00, PAN: 378282246310005, Franquicia: American Express, CVV: 2345, Vencimiento: 08/28, Referencia: 1002, Estado: Anulada

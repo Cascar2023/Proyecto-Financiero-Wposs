@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "compra.h"
+#include "anulacion.h"
 
 int main(){
     int opcion;
@@ -16,10 +17,15 @@ int main(){
             case 1:
                 printf("Procesando compra...\n");
                 procesarCompra();
+                system("cls"); // Limpiar pantalla (funciona en Windows)
                 break;
             case 2:
                 printf("Anulacion...\n");
-                // Llamar a la funcion de anulacion
+                unsigned int referencia;
+                printf("Ingrese la referencia de la compra a anular: ");
+                scanf("%u", &referencia);
+                anularCompra(referencia);
+                system("cls"); // Limpiar pantalla (funciona en Windows)
                 break;
             case 3:
                 printf("Cierre...\n");
