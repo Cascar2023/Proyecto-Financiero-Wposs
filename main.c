@@ -35,7 +35,10 @@ int main(){
                 break;
             case 3:
                 printf("Cierre...\n");
-                // Llamar a la funcion de cierre
+                getchar(); // Limpiar buffer
+                printf("Presione Enter para continuar...");
+                getchar(); // Esperar a que el usuario presione una tecla
+                system("cls"); // Limpiar pantalla (funciona en Windows)
                 break;
             case 4:
                 printf("Reimpresion...\n");
@@ -47,7 +50,10 @@ int main(){
                 break;
             case 5:
                 printf("Reporte totales...\n");
-                // Llamar a la funcion de reporte totales
+                getchar(); // Limpiar buffer
+                printf("Presione Enter para continuar...");
+                getchar(); // Esperar a que el usuario presione una tecla
+                system("cls"); // Limpiar pantalla (funciona en Windows)
                 break;
             case 0:
                 printf("Saliendo del programa.\n");
