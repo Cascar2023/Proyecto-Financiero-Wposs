@@ -17,6 +17,9 @@ int main(){
             case 1:
                 printf("Procesando compra...\n");
                 procesarCompra();
+                getchar(); // Limpiar buffer
+                printf("Presione Enter para continuar...");
+                getchar(); // Esperar a que el usuario presione una tecla
                 system("cls"); // Limpiar pantalla (funciona en Windows)
                 break;
             case 2:
@@ -25,6 +28,9 @@ int main(){
                 printf("Ingrese la referencia de la compra a anular: ");
                 scanf("%u", &referencia);
                 anularCompra(referencia);
+                getchar(); // Limpiar buffer
+                printf("Presione Enter para continuar...");
+                getchar(); // Esperar a que el usuario presione una tecla
                 system("cls"); // Limpiar pantalla (funciona en Windows)
                 break;
             case 3:
@@ -33,7 +39,11 @@ int main(){
                 break;
             case 4:
                 printf("Reimpresion...\n");
-                // Llamar a la funcion de reimpresion
+                reimprimir();
+                getchar(); // Limpiar buffer
+                printf("Presione Enter para continuar...");
+                getchar(); // Esperar a que el usuario presione una tecla
+                system("cls"); // Limpiar pantalla (funciona en Windows)
                 break;
             case 5:
                 printf("Reporte totales...\n");

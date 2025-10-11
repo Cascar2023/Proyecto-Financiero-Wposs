@@ -50,6 +50,8 @@ void procesarCompra() {
     getchar();  // Limpiar el buffer
     fgets(compra.PAN, sizeof(compra.PAN), stdin);
     compra.PAN[strcspn(compra.PAN, "\n")] = 0; // Eliminar salto de línea
+    limpiarEspacios(compra.PAN);
+    limpiarCaracteresNoNumericos(compra.PAN);
 
     // Validar PAN con Luhn y longitud
     if (!esPANValido(compra.PAN)) {
@@ -64,17 +66,20 @@ void procesarCompra() {
         return;
     }
 
+
+
     // CVV de la tarjeta
     printf("ingrese el CVV de su tarjeta: \n");
     fgets(compra.cvv, sizeof(compra.cvv), stdin);
     compra.cvv[strcspn(compra.cvv, "\n")] = 0;
-    getchar();  // Limpiar el buffer
+
 
     // Validar CVV segun franquicia
     if (!validarCVV(compra.cvv, compra.franquicia)) {
         printf("CVV invalido para la franquicia %s.\n", compra.franquicia);
         return;
     }
+
 
     // Fecha de vencimiento de la tarjeta
     printf("ingrese la fecha de vencimiento de su tarjeta (MM/AA): \n");
@@ -135,7 +140,29 @@ void guardarCompra(const Compra *compra) {
     printf("Compra guardada en el archivo compras.txt\n");
 }
 
-// Funciones de validacion
+// Función para limpiar espacios en blanco de un PAN
+    void limpiarEspacios(char *pan) {
+        char *src = pan, *dst = pan;
+        while (*src) {
+            if (!isspace((unsigned char)*src)) {
+                *dst++ = *src;
+            }
+            src++;
+        }
+        *dst = '\0';
+    }
+
+// Función para eliminar caracteres no numéricos de un PAN
+    void limpiarCaracteresNoNumericos(char *pan) {
+        char *src = pan, *dst = pan;
+        while (*src) {
+            if (isdigit((unsigned char)*src)) {
+                *dst++ = *src;
+            }
+            src++;
+        }
+        *dst = '\0';
+    }
 
 // Valida el PAN usando el algoritmo de Luhn y verifica longitud y que no sean todos los digitos iguales entre si
 int esPANValido(const char *pan) {
