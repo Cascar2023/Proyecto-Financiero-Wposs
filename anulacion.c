@@ -3,30 +3,30 @@
 //***************************************************************************************************************************/
 
 #include "anulacion.h"
+#include "compra.h"
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
 
-#define archivo_compras "compras.txt"
+#define archivo_compras "compras.dat"
 
 void anularCompra(unsigned int referencia) {
-    FILE *archivo = fopen(archivo_compras, "r+");
+    FILE *archivo = fopen(archivo_compras, "r+b");
     if (archivo == NULL) {
         printf("Error al abrir el archivo de compras.\n");
         return;
     }
 
-    char linea[256];
-    long posicion = 0;
+    Compra compra;
     int encontrada = 0;
+    long posicion = 0;
 
-    while (fgets(linea, sizeof(linea), archivo) != NULL) {
-        unsigned int refTemp;
-        if (sscanf(linea, "%*[^R]Referencia: %u", &refTemp) == 1 && refTemp == referencia) {
+    while (fread(&compra, sizeof(Compra), 1, archivo) == 1) {
+        if (compra.referencia == referencia) {
             encontrada = 1;
             break;
         }
-        posicion = ftell(archivo);
+        posicion++;
     }
 
     if (!encontrada) {
@@ -35,46 +35,37 @@ void anularCompra(unsigned int referencia) {
         return;
     }
 
-    // Mover el puntero al inicio de la línea encontrada
-    fseek(archivo, posicion, SEEK_SET);
-
-    // Leer la línea completa
-    if (fgets(linea, sizeof(linea), archivo) != NULL) {
-        // Buscar "Estado: " y cambiar su valor de 'Vigente' a 'Anulada'
-        char *estadoPtr = strstr(linea, "Vigente");
-        if (estadoPtr != NULL && strncmp(estadoPtr, "Anulada", 7) == 0) {
-            printf("La compra con referencia %u ya ha sido anulada previamente.\n", referencia);
-            fclose(archivo);
-            return;
-        }
-        if (estadoPtr != NULL && strlen(estadoPtr) >= 7) { // "Estado: X" tiene al menos 7 caracteres
-            printf("Antes de anular la compra, indiquenos los 4 ultimos digitos del PAN y su CVV para verificar su identidad:\n");
-            char panVerificacion[20];
-            char cvvVerificacion[5];
-            printf("PAN: ");
-            scanf("%19s", panVerificacion);
-            printf("CVV: ");
-            scanf("%4s", cvvVerificacion);
-
-            if(strstr(linea, panVerificacion) == NULL || strstr(linea, cvvVerificacion) == NULL) {
-                printf("Los datos proporcionados no coinciden con los de la compra. Anulacion cancelada.\n");
-                fclose(archivo);
-                return;
-            }
-
-            strcpy(estadoPtr, "Anulada"); // Cambiar el estado a 'Anulada'
-
-            // Mover el puntero de nuevo al inicio de la línea para sobrescribir
-            fseek(archivo, posicion, SEEK_SET);
-            fputs(linea, archivo);
-            fflush(archivo); // Asegurar que los cambios se escriban en el archivo
-            printf("Compra con referencia %u anulada exitosamente.\n", referencia);
-        } else {
-            printf("No se pudo encontrar el estado en la linea de la compra.\n");
-        }
-    } else {
-        printf("Error al leer la linea de la compra.\n");
+    if (strcmp(compra.estado, "Anulada") == 0) {
+        printf("La compra con referencia %u ya ha sido anulada previamente.\n", referencia);
+        fclose(archivo);
+        return;
     }
+
+    // Verificación de identidad
+    printf("Antes de anular la compra, indique los 4 ultimos digitos del PAN y su CVV para verificar su identidad:\n");
+    char panVerificacion[5];
+    char cvvVerificacion[6];
+    printf("PAN (4 ultimos): ");
+    scanf("%4s", panVerificacion);
+    printf("CVV: ");
+    scanf("%5s", cvvVerificacion);
+
+    int panLen = strlen(compra.PAN);
+    if (strncmp(compra.PAN + panLen - 4, panVerificacion, 4) != 0 ||
+        strcmp(compra.cvv, cvvVerificacion) != 0) {
+        printf("Los datos proporcionados no coinciden con los de la compra. Anulacion cancelada.\n");
+        fclose(archivo);
+        return;
+    }
+
+    strcpy(compra.estado, "Anulada");
+
+    // Mover el puntero al registro correcto y sobrescribir
+    fseek(archivo, posicion * sizeof(Compra), SEEK_SET);
+    fwrite(&compra, sizeof(Compra), 1, archivo);
+    fflush(archivo);
+
+    printf("Compra con referencia %u anulada exitosamente.\n", referencia);
 
     fclose(archivo);
 }
