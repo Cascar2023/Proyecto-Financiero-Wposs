@@ -6,6 +6,7 @@
 void cierreBancario() {
     reporteTotales();
     char opcion;
+    //Se hace el reporte y se pregunta si se desea proceder con el cierre
     printf("Desea proceder con el cierre bancario? Esto eliminara todas las transacciones (s para si/n para no): \n");
     scanf(" %c", &opcion);
     if (opcion != 's' && opcion != 'S' && opcion != 'n' && opcion != 'N') {
