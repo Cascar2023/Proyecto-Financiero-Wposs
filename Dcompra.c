@@ -6,7 +6,7 @@
 
 #define MAX_COMPRAS 20
 #define referencia_inicial 1000
-#define archivo_compras "compras.txt"
+#define archivo_compras "compras.dat"
 
 //***************************************************************************************************************************/
 //***************************************************Procesar Compra*********************************************************/
@@ -14,17 +14,14 @@
 
 void procesarCompra() {
     Compra compra;
-    FILE *archivo = fopen(archivo_compras, "r");
-    unsigned int referenciaActual = referencia_inicial - 1; // Para que la primera sea 1000 si no hay nada
+    FILE *archivo = fopen(archivo_compras, "rb");
+    unsigned int referenciaActual = referencia_inicial - 1;
 
     if (archivo != NULL) {
-        char linea[256];
-        unsigned int refTemp;
-        while (fgets(linea, sizeof(linea), archivo) != NULL) {
-            if (sscanf(linea, "%*[^R]Referencia: %u", &refTemp) == 1) {
-                if (refTemp > referenciaActual) {
-                    referenciaActual = refTemp;
-                }
+        Compra temp;
+        while (fread(&temp, sizeof(Compra), 1, archivo) == 1) {
+            if (temp.referencia > referenciaActual) {
+                referenciaActual = temp.referencia;
             }
         }
         fclose(archivo);
@@ -42,6 +39,11 @@ void procesarCompra() {
     // Validar monto
     if (compra.montoDolares <= 0) {
         printf("El monto de la compra debe ser mayor a cero.\n");
+        return;
+    }
+
+    if (compra.montoDolares > 10000000000) {
+        printf("El monto de la compra excede el limite permitido de $10,000,000,000.\n");
         return;
     }
 
@@ -128,16 +130,14 @@ void procesarCompra() {
 
 // Función para guardar la compra en un archivo
 void guardarCompra(const Compra *compra) {
-    FILE *archivo = fopen("compras.txt", "a+t");
+    FILE *archivo = fopen(archivo_compras, "ab");
     if (archivo == NULL) {
         printf("Error al abrir el archivo para guardar la compra.\n");
         return;
     }
-    // Guardar en formato legible
-    fprintf(archivo, "Monto: %.2f, PAN: %s, Franquicia: %s, CVV: %s, Vencimiento: %s, Referencia: %u, Estado: %s\n",
-        compra->montoDolares, compra->PAN, compra->franquicia, compra->cvv, compra->fechaVencimiento, compra->referencia, compra->estado);
+    fwrite(compra, sizeof(Compra), 1, archivo);
     fclose(archivo);
-    printf("Compra guardada en el archivo compras.txt\n");
+    printf("Compra guardada en el archivo compras.dat\n");
 }
 
 // Función para limpiar espacios en blanco de un PAN
