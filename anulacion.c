@@ -11,6 +11,7 @@
 #define archivo_compras "compras.dat"
 
 void anularCompra(unsigned int referencia) {
+    printf("-----------------------------------ANULACION DE COMPRA-----------------------------------\n");
     FILE *archivo = fopen(archivo_compras, "r+b");
     if (archivo == NULL) {
         printf("Error al abrir el archivo de compras.\n");
@@ -61,7 +62,7 @@ void anularCompra(unsigned int referencia) {
     strcpy(compra.estado, "Anulada");
 
     // Mover el puntero al registro correcto y sobrescribir
-    fseek(archivo, posicion * sizeof(Compra), SEEK_SET);
+    fseek(archivo, (long)(posicion * sizeof(Compra)), SEEK_SET);
     fwrite(&compra, sizeof(Compra), 1, archivo);
     fflush(archivo);
 

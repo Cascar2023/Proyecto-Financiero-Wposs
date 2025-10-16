@@ -1,8 +1,11 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "compra.h"
 #include "anulacion.h"
 #include "reporte.h"
 #include "reimpresion.h"
+#include "cierre.h"
+#include "utils.h"
 
 int main(){
     int opcion;
@@ -17,51 +20,49 @@ int main(){
         scanf("%d", &opcion);
         switch(opcion){
             case 1:
-                printf("************************************************\n");
-                printf("Procesando compra...\n");
+                clear_input_buffer(); // Limpiar buffer antes de procesar compra
                 procesarCompra();
-                getchar(); // Limpiar buffer
                 printf("Presione Enter para continuar...");
-                getchar(); // Esperar a que el usuario presione una tecla
+                clear_input_buffer(); // Limpiar buffer
                 system("cls"); // Limpiar pantalla (funciona en Windows)
                 break;
             case 2:
+                clear_input_buffer();
                 printf("************************************************\n");
                 printf("Anulacion...\n");
                 unsigned int referencia;
                 printf("Ingrese la referencia de la compra a anular: ");
                 scanf("%u", &referencia);
                 anularCompra(referencia);
-                getchar(); // Limpiar buffer
                 printf("Presione Enter para continuar...");
-                getchar(); // Esperar a que el usuario presione una tecla
+                clear_input_buffer(); // Limpiar buffer
                 system("cls"); // Limpiar pantalla (funciona en Windows)
                 break;
             case 3:
+                clear_input_buffer();
                 printf("************************************************\n");
                 printf("Cierre...\n");
                 cierreBancario();
-                getchar(); // Limpiar buffer
                 printf("Presione Enter para continuar...");
-                getchar(); // Esperar a que el usuario presione una tecla
+                clear_input_buffer(); // Limpiar buffer
                 system("cls"); // Limpiar pantalla (funciona en Windows)
                 break;
             case 4:
+                clear_input_buffer();
                 printf("************************************************\n");
                 printf("Reimpresion...\n");
                 reimprimir();
-                getchar(); // Limpiar buffer
                 printf("Presione Enter para continuar...");
-                getchar(); // Esperar a que el usuario presione una tecla
+                clear_input_buffer(); // Limpiar buffer
                 system("cls"); // Limpiar pantalla (funciona en Windows)
                 break;
             case 5:
+                clear_input_buffer();
                 printf("************************************************\n");
                 printf("Reporte totales...\n");
                 reporteTotales();
-                getchar(); // Limpiar buffer
                 printf("Presione Enter para continuar...");
-                getchar(); // Esperar a que el usuario presione una tecla
+                clear_input_buffer(); // Limpiar buffer
                 system("cls"); // Limpiar pantalla (funciona en Windows)
                 break;
             case 0:

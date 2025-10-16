@@ -3,6 +3,7 @@
 #include <string.h>
 
 void reporteTotales() {
+    printf("-----------------------------------REPORTE TOTAL DE COMPRAS-----------------------------------\n");
     FILE *archivo = fopen("compras.dat", "rb");
     if (archivo == NULL) {
         printf("No se pudo abrir el archivo de compras.\n");
@@ -17,6 +18,7 @@ void reporteTotales() {
 
     while (fread(&compra, sizeof(Compra), 1, archivo) == 1) {
         contador++;
+        // Contar las compras anuladas y vigentes
         if (strcmp(compra.estado, "Anulada") == 0)
             contadorAnuladas++;
         else if (strcmp(compra.estado, "Vigente") == 0){
