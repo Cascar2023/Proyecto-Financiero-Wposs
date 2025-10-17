@@ -10,3 +10,16 @@ void clear_input_buffer(void) {
         /* vacía */
     }
 }
+
+void clear_screen(void) {
+#ifdef _WIN32
+    system("cls");
+#else
+    /* primero intenta clear (comando POSIX) */
+    if (system("clear") != 0) {
+        /* fallback usando secuencia ANSI (si el terminal la soporta) */
+        printf("\x1b[2J\x1b[H");
+        fflush(stdout);
+    }
+#endif
+}

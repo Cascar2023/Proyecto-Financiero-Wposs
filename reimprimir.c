@@ -1,5 +1,6 @@
 #include "reimpresion.h"
 #include "compra.h"
+#include "utils.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -68,6 +69,7 @@ void reimprimir() {
     char opcion;
     do {
         system("cls");
+        clear_screen();
         imprimirTablaHeader();
         imprimirCompraEnTabla(&compras[pos]);
 

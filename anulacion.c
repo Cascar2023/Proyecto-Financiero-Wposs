@@ -24,6 +24,7 @@ void anularCompra(unsigned int referencia) {
     int encontrada = 0;
     long posicion = 0;
 
+    // Buscar la compra por referencia
     while (fread(&compra, sizeof(Compra), 1, archivo) == 1) {
         if (compra.referencia == referencia) {
             encontrada = 1;
@@ -32,6 +33,7 @@ void anularCompra(unsigned int referencia) {
         posicion++;
     }
 
+    // Si no se encontró la compra
     if (!encontrada) {
         printf("No se encontro una compra con la referencia %u.\n", referencia);
         fclose(archivo);
@@ -39,6 +41,7 @@ void anularCompra(unsigned int referencia) {
         return;
     }
 
+    // Verificar si ya está anulada
     if (strcmp(compra.estado, "Anulada") == 0) {
         printf("La compra con referencia %u ya ha sido anulada previamente.\n", referencia);
         fclose(archivo);
