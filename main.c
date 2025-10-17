@@ -46,7 +46,7 @@ int main(){
                 procesarCompra();
                 printf("Presione Enter para continuar...");
                 clear_input_buffer(); // Limpiar buffer
-                system("cls"); // Limpiar pantalla (funciona en Windows)
+                clear_screen(); // Limpiar pantalla
                 break;
             case 2:
                 printf("************************************************\n");
@@ -69,7 +69,7 @@ int main(){
                 }
                 printf("Presione Enter para continuar...");
                 clear_input_buffer(); // Limpiar buffer
-                system("cls"); // Limpiar pantalla (funciona en Windows)
+                clear_screen(); // Limpiar pantalla
                 break;
             case 3:
                 printf("************************************************\n");
@@ -77,7 +77,7 @@ int main(){
                 cierreBancario();
                 printf("Presione Enter para continuar...");
                 clear_input_buffer(); // Limpiar buffer
-                system("cls"); // Limpiar pantalla (funciona en Windows)
+                clear_screen(); // Limpiar pantalla
                 break;
             case 4:
                 printf("************************************************\n");
@@ -85,7 +85,7 @@ int main(){
                 reimprimir();
                 printf("Presione Enter para continuar...");
                 clear_input_buffer(); // Limpiar buffer
-                system("cls"); // Limpiar pantalla (funciona en Windows)
+                clear_screen(); // Limpiar pantalla
                 break;
             case 5:
                 printf("************************************************\n");
@@ -93,7 +93,7 @@ int main(){
                 reporteTotales();
                 printf("Presione Enter para continuar...");
                 clear_input_buffer(); // Limpiar buffer
-                system("cls"); // Limpiar pantalla (funciona en Windows)
+                clear_screen(); // Limpiar pantalla
                 break;
             case 0:
                 printf("Saliendo del programa.\n");

@@ -6,5 +6,6 @@
 #include <string.h>
 
 void clear_input_buffer(void);
+void clear_screen(void);
 
 #endif // UTILS_H
