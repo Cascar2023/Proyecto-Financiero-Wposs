@@ -1,12 +1,21 @@
 #ifndef REIMPRESION_H
 #define REIMPRESION_H
+
 #include "compra.h"
+#include <stddef.h>
 
-char compras[20]; // Array para almacenar las compras
+/* Interfaz de reimpresión — no definir variables globales aquí. */
 
-void reimprimir();
-void enmascararPAN(char *linea);
-void imprimirTablaHeader();
+/* Muestra la vista interactiva de reimpresión */
+void reimprimir(void);
+
+/* Enmascara el PAN contenido en el buffer pasado (modifica el string) */
+void enmascararPAN(char *pan);
+
+/* Imprime el encabezado de la tabla de reimpresión */
+void imprimirTablaHeader(void);
+
+/* Imprime una compra formateada en la tabla */
 void imprimirCompraEnTabla(const Compra *compra);
 
-#endif
+#endif /* REIMPRESION_H */

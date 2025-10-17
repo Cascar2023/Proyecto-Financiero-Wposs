@@ -1,6 +1,8 @@
 #include "reimpresion.h"
 #include "compra.h"
+#include "utils.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
 
@@ -22,7 +24,8 @@ void enmascararPAN(char *pan) {
 }
 
 void imprimirTablaHeader() {
-    printf("%-10s %-22s %-12s %-6s %-8s %-10s %-10s\n",
+    printf("----------------------------------------REIMPRESION-----------------------------------------------\n");
+    printf("%-10s %-22s %-18s %-6s %-8s %-10s %-10s\n",
         "Monto", "PAN", "Franquicia", "CVV", "Venc.", "Ref.", "Estado");
     printf("---------------------------------------------------------------------------------------------\n");
 }
@@ -33,7 +36,7 @@ void imprimirCompraEnTabla(const Compra *compra) {
     panMascara[sizeof(panMascara)-1] = '\0';
     enmascararPAN(panMascara);
 
-    printf("%-10.2lf %-22s %-12s %-6s %-8s %-10u %-10s\n",
+    printf("%-10.2lf %-22s %-18s %-6s %-8s %-10u %-10s\n",
         compra->montoDolares,
         panMascara,
         compra->franquicia,
@@ -66,6 +69,7 @@ void reimprimir() {
     char opcion;
     do {
         system("cls");
+        clear_screen();
         imprimirTablaHeader();
         imprimirCompraEnTabla(&compras[pos]);
 
