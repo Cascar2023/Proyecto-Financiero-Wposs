@@ -48,10 +48,6 @@ void anularCompra(unsigned int referencia) {
         return;
     }
 
-    // Limpiar buffer de entrada por si quedaron restos de lecturas previas
-    int ch;
-    while ((ch = getchar()) != '\n' && ch != EOF);
-
     // Verificación de identidad con reintentos
     char panVerificacion[5];
     char cvvVerificacion[10];
