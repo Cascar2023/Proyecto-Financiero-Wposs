@@ -9,6 +9,7 @@
 #define MAX_COMPRAS 20
 #define MAX_LINEA 256
 
+// ...existing code...
 void enmascararPAN(char *pan) {
     int len = strlen(pan);
     if (len >= 8) {
@@ -46,6 +47,15 @@ void imprimirCompraEnTabla(const Compra *compra) {
         compra->estado);
 }
 
+// Comparador para ordenar por referencia descendente (mayor primero)
+static int cmp_referencia_desc(const void *a, const void *b) {
+    const Compra *A = a;
+    const Compra *B = b;
+    if (A->referencia < B->referencia) return 1;
+    if (A->referencia > B->referencia) return -1;
+    return 0;
+}
+
 void reimprimir() {
     Compra compras[MAX_COMPRAS];
     FILE *archivo = fopen("compras.dat", "rb");
@@ -55,7 +65,7 @@ void reimprimir() {
     }
 
     int contador = 0;
-    while (fread(&compras[contador], sizeof(Compra), 1, archivo) == 1 && contador < MAX_COMPRAS) {
+    while (contador < MAX_COMPRAS && fread(&compras[contador], sizeof(Compra), 1, archivo) == 1) {
         contador++;
     }
     fclose(archivo);
@@ -65,25 +75,33 @@ void reimprimir() {
         return;
     }
 
-    int pos = contador - 1;
-    char opcion;
+    // Ordenar por referencia descendente para mostrar primero la compra más reciente
+    qsort(compras, contador, sizeof(Compra), cmp_referencia_desc);
+
+    int pos = 0; // ahora 0 = compra más reciente
+    char linea[16];
+
     do {
-        system("cls");
-        clear_screen();
+        clear_screen();             // uso portable
         imprimirTablaHeader();
         imprimirCompraEnTabla(&compras[pos]);
 
         printf("\n");
         if (pos > 0) printf("<- [a] ");
         else printf("        ");
-        printf("Transaccion %d de %d", contador - pos, contador);
+        printf("Transaccion %d de %d", pos + 1, contador);
         if (pos < contador - 1) printf(" [d] ->");
         printf("\nPresiona 'a' (izquierda), 'd' (derecha), o 'q' para salir: ");
 
-        opcion = getchar();
-        while (opcion == '\n') opcion = getchar();
+        if (fgets(linea, sizeof(linea), stdin) == NULL) break;
+        if (linea[0] == '\n' || linea[0] == '\0') continue; // no aceptar ENTER vacío
+        if(strlen(linea) > 2) continue; //no aceptar mas de 1 caracter
 
-        if (opcion == 'a' && pos > 0) pos--;
-        else if (opcion == 'd' && pos < contador - 1) pos++;
-    } while (opcion != 'q');
+        char opcion = linea[0];
+
+        if ((opcion == 'a' || opcion == 'A') && pos > 0) pos--;
+        else if ((opcion == 'd' || opcion == 'D') && pos < contador - 1) pos++;
+        else if (opcion == 'q' || opcion == 'Q') break;
+        /* cualquier otro input se ignora y se vuelve a mostrar la vista */
+    } while (1);
 }
